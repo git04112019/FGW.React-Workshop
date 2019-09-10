@@ -1,1 +1,17 @@
-# FGW.React-Workshop
+# WORKSHOP REACTJS
+
+#### Author: Vinh Hoang
+
+#### Date : TBD
+
+## Agenda
+
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
