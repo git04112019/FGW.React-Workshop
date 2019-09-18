@@ -1,8 +1,8 @@
 # WORKSHOP REACTJS
 
-#### Author: Vinh Hoang
+### Author: Vinh Hoang
 
-#### Date : TBD
+### Date : TBD
 
 ## Agenda
 
@@ -10,21 +10,24 @@
 - [x] Tổng quan về React Weather App
 - [x] Setup môi trường phát triển
 - [x] Hello World App
-- [ ] Xây dựng các components:
+- [x] Xây dựng các components:
   - [x] Navbar component
   - [x] About component
-  - [ ] Home component
-  - [ ] Weather component
-- [ ] Fetch Weather API
-- [ ] Deploy lên netlify
+  - [x] Home component
+  - [x] Weather component
+  - [x] Fetch Weather API
+- Todo
+  - [ ] Deploy lên netlify
+  - [ ] Xử lý các trường hợp đặt biệt
+  - [ ] Thêm các UI như spinner, alert
 
 ### Tổng quan về React
 
-#### Some slides
+### Some slides
 
 [React Overview](http://coenraets.org/present/react)
 
-#### JSX trong React
+### JSX trong React
 
 ReactJS là một thư viện JavaScript được phát triển bởi Facebook nhằm xây dựng giao diện người dùng(UI).
 
@@ -67,7 +70,7 @@ MORE:
 
 ### Setup môi trường phát triển
 
-#### Cài đặt Nodejs và npm
+### Cài đặt Nodejs và npm
 
 Tại Ubuntu 18.04, mở Terminal và dùng câu lệnh sau để cài đặt
 
@@ -87,13 +90,13 @@ Output:
 v8.10.0
 ```
 
-#### Cài đặt Visual Studio Code
+### Cài đặt Visual Studio Code
 
 Cài đặt VS Code thông qua Ubuntu Software
 
 // Thêm hình ảnh VS Code
 
-#### Cài đặt các extensions cần thiêt
+### Cài đặt các extensions cần thiêt
 
 Mở phần Extensions trong Visual Studio Code, tìm và cài các extensions sau:
 
@@ -101,7 +104,7 @@ Mở phần Extensions trong Visual Studio Code, tìm và cài các extensions s
 - Prettier - Code formatter
 - Bracket Pair Colorizer
 
-Thêm các congif trong file `settings.json` như sau:
+Thêm các config trong file `settings.json` như sau:
 
 ```json
 {
@@ -159,7 +162,7 @@ MORE:
 
 ### Xây dựng các components
 
-#### Navbar component
+### Navbar component
 
 Tạo folder `components` để chứa tất cả các components của App
 
@@ -734,18 +737,168 @@ function App() {
 export default App;
 ```
 
-#### Weather component
+### Xây dựng HTML Form
 
-TBD
+Xây dựng HTML form để nhận input từ người dùng
+
+```js
+<form onSubmit={onSubmit} className='form' action=''>
+  <input
+    type='text'
+    name='city'
+    value={city}
+    placeholder='City...'
+    onChange={updateCity}
+    required
+  />
+  <input
+    type='text'
+    name='country'
+    value={country}
+    placeholder='Country...'
+    onChange={updateCountry}
+    required
+  />
+  <input type='submit' value='Search' className='btn btn-dark btn-block' />
+</form>
+```
+
+Import {useState} để dùng React Hooks
+
+```
+import React, { useState, useEffect } from 'react';
+```
+
+Khai báo các state cần dùng trong App
+
+```js
+const [city, setCity] = useState('');
+const [country, setCountry] = useState('');
+```
+
+### Handle input từ người dùng
+
+Handle input từ người dùng thông qua update các state `city`, và `country` bằng function `updateCity()` và `updateCountry()`
+
+```js
+const updateCity = e => {
+  setCity(e.target.value);
+};
+
+const updateCountry = e => {
+  setCountry(e.target.value);
+};
+```
+
+Sau khi đã update input của người dùng qua 2 state `city` và `country`, define function `onSubmit()`
+
+```js
+  const onSubmit = e => {
+    e.preventDefault();
+      console.log(`city: ${city}, country: ${country}`)
+      setCity('');
+      setCountry('');
+    }
+  };
+```
 
 ### Fetch Weather API
 
-Cài đặt Postman để fetch APi trước
+Sử dụng [Open Weather APi](https://openweathermap.org/current) để get data
 
-[How to Install Postman on Ubuntu 18.04](https://linuxize.com/post/how-to-install-postman-on-ubuntu-18-04/)
+Update function `onSubmit` để chuẩn bị query submit lên APi
 
-TBD
+```js
+const onSubmit = e => {
+  e.preventDefault();
+  setQuery(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=b37e79b94f3aa3f2c52e9b55ec987462`
+  );
+  setCity('');
+  setCountry('');
+};
+```
 
-### Deploy lên Netlify
+Tạo state `query` và `weatherInfo` để handle query lên APi và store data từ APi trả về
 
-TBD
+```js
+const [query, setQuery] = useState('');
+const [weatherInfo, setWeatherInfo] = useState({
+  humidity: '',
+  pressure: '',
+  temp: '',
+  temp_max: '',
+  temp_min: ''
+});
+```
+
+Define function `getWeatherInfo()` để fetch data từ APi
+
+```js
+const getWeatherInfo = async () => {
+  if (query === '') {
+  } else {
+    const api_call = await fetch(query);
+    const response = await api_call.json();
+    console.log(response);
+    setWeatherInfo(response.main);
+  }
+};
+```
+
+Sử dụng `useEffect()` để handle lệnh call APi
+
+```js
+useEffect(() => {
+  getWeatherInfo();
+  // eslint-disable-next-line
+}, [query]);
+```
+
+Hiển thị data sau khi nhận response trả về từ APi
+
+```js
+<ul>
+  <li>Humidity: {weatherInfo.humidity}</li>
+  <li>Pressure: {weatherInfo.pressure}</li>
+  <li>Temp: {weatherInfo.temp}</li>
+  <li>Temp Max: {weatherInfo.temp_max}</li>
+  <li>Temp Min: {weatherInfo.temp_min}</li>
+</ul>
+```
+
+### Weather component
+
+Xây dựng `Weather` component để hiện thị các data từ props được passed từ `Home` component
+
+```js
+import React from 'react';
+
+const Weather = ({
+  weatherInfo: { humidity, pressure, temp, temp_max, temp_min }
+}) => {
+  return (
+    <div>
+      <ul>
+        <li>Humidity: {humidity}</li>
+        <li>Pressure: {pressure}</li>
+        <li>Temp: {temp}</li>
+        <li>Temp Max: {temp_max}</li>
+        <li>Temp Min: {temp_min}</li>
+      </ul>
+    </div>
+  );
+};
+
+export default Weather;
+```
+
+Sử dụng `Weather` component trong `Home` component
+
+```js
+import Weather from './Weather';
+```
+
+```js
+<Weather weatherInfo={weatherInfo} />
+```
