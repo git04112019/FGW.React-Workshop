@@ -16,7 +16,7 @@
   - [x] Home component
   - [x] Weather component
   - [x] Fetch Weather API
-- Todo
+- [ ] Todo
   - [ ] Deploy lên netlify
   - [ ] Xử lý các trường hợp đặt biệt
   - [ ] Thêm các UI như spinner, alert
@@ -485,3 +485,15 @@ import Weather from './Weather';
 ```js
 <Weather weatherInfo={weatherInfo} />
 ```
+
+---
+
+## TODO
+
+- [ ] Deploy lên netlify
+- [ ] Xử lý các trường hợp đặt biệt
+- [ ] Thêm các UI như spinner, alert
+
+---
+
+## END
