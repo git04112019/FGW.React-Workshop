@@ -166,7 +166,7 @@ MORE:
 
 Tạo folder `components` để chứa tất cả các components của App
 
-Inclue style trong file [`App.css`](/react-weather-app/src/App.js)
+Inclue style trong file [`App.css`](/react-weather-app/src/App.css)
 
 Cài đặt package `react-router-dom` từ npm
 
