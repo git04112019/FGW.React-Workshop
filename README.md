@@ -346,7 +346,7 @@ Xây dựng HTML form để nhận input từ người dùng
 </form>
 ```
 
-Import {useState} để dùng React Hooks
+Import `{useState}` để dùng React Hooks
 
 ```
 import React, { useState, useEffect } from 'react';
